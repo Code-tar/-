@@ -38,44 +38,44 @@
           <el-button type="primary" @click="add">确 定</el-button>
         </div>
       </el-dialog>
-<!--      <div>-->
-<!--        <el-table-->
-<!--            :data="data"-->
-<!--            border-->
-<!--            style="width: 100%">-->
-<!--          <el-table-column-->
-<!--              prop="stuId"-->
-<!--              label="学号"-->
-<!--              width="180">-->
-<!--          </el-table-column>-->
-<!--          <el-table-column-->
-<!--              prop="stuName"-->
-<!--              label="姓名"-->
-<!--              width="180">-->
-<!--          </el-table-column>-->
-<!--          <el-table-column-->
-<!--              prop="stuUserId"-->
-<!--              label="账号">-->
-<!--          </el-table-column>-->
-<!--          <el-table-column-->
-<!--              prop="dormId"-->
-<!--              label="所属宿舍">-->
-<!--          </el-table-column>-->
-<!--          <el-table-column-->
-<!--              prop="balance"-->
-<!--              label="宿舍水电费余额（元）">-->
-<!--          </el-table-column>-->
-<!--          <el-table-column-->
-<!--              prop="type"-->
-<!--              label="宿舍状态">-->
-<!--          </el-table-column>-->
-<!--          <el-table-column-->
-<!--              label="操作">-->
-<!--          </el-table-column>-->
+      <div v-show="isShow">
+        <el-table
+            :data="data2"
+            border
+            style="width: 100%">
+          <el-table-column
+              prop="stuId"
+              label="学号"
+              width="180">
+          </el-table-column>
+          <el-table-column
+              prop="stuName"
+              label="姓名"
+              width="180">
+          </el-table-column>
+          <el-table-column
+              prop="stuUserId"
+              label="账号">
+          </el-table-column>
+          <el-table-column
+              prop="dormId"
+              label="所属宿舍">
+          </el-table-column>
+          <el-table-column
+              prop="balance"
+              label="宿舍水电费余额（元）">
+          </el-table-column>
+          <el-table-column
+              prop="type"
+              label="宿舍状态">
+          </el-table-column>
+          <el-table-column
+              label="操作">
+          </el-table-column>
 
 
-<!--        </el-table>-->
-<!--      </div>-->
+        </el-table>
+      </div>
 
       <div>
         <el-table
@@ -84,6 +84,7 @@
             :header-cell-style="thStyleFun"
             border
             style="width: 100%"
+
 
         >
           <el-table-column
@@ -207,13 +208,15 @@ export default {
       pageNum: 50,
       pageSize: 5,
       page: 1,
+      isShow:false,
       data: [],
       data1:[],
+      data2:[],
       addData: {
         stuName: '',
         stuPas: '',
         stuUserId: '',
-        stuDormId: 4,
+        stuDormId: '',
         stuId: '',
 
 
@@ -263,6 +266,7 @@ export default {
       return 'text-align:center'
     },
     changepage(scope) {
+      this.isShow = !this.isShow
       this.$axios({
         url:'/student/getstudentpayment',
         params: {
@@ -273,8 +277,17 @@ export default {
         console.log(res);
         this.data = res.data.data
         this.pageNum = res.data.data.length
-        this.$forceUpdate();
       })
+      // this.$axios({
+      //   url:'/dorm/getdorm',
+      //   params: {
+      //     stuId:scope.row.stuId
+      //   }
+      // }).then((res)=>{
+      //   this.data2 = scope.row
+      //   this.pageNum = res.data.data.length
+      //
+      // })
     },
     handleEdit(index, row) {
       this.dialogFormVisible1 = true;

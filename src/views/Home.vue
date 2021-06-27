@@ -10,7 +10,19 @@
     <!--    <router-link to="/home/admin">管理员管理</router-link>-->
     <!--    <router-view></router-view>-->
     <el-container>
-      <el-header>宿舍管理系统</el-header>
+      <el-header>宿舍管理系统
+        <div class="login-text">{{currusername}}
+          <el-dropdown trigger="click">
+  <span class="el-dropdown-link">
+   <i class="el-icon-caret-bottom el-icon--right"></i>
+  </span>
+            <el-dropdown-menu slot="dropdown">
+              <el-dropdown-item class="clearfix" @click.native="loginout">
+                登出
+              </el-dropdown-item>
+            </el-dropdown-menu>
+          </el-dropdown>
+        </div></el-header>
 
       <el-container>
         <el-aside width="200px">
@@ -80,6 +92,10 @@
 </template>
 
 <style scoped>
+.login-text{
+  float: right;
+  line-height: 50px;
+}
 
 
 .el-aside {
@@ -119,17 +135,17 @@ export default {
   name:'box',
   data(){
     return{
-      title1:['公告主页']
+      title1:['公告主页'],
+
     }
   },
 
   methods: {
-    // handleOpen(key, keyPath) {
-    //   console.log(key, keyPath);
-    // },
-    // handleClose(key, keyPath) {
-    //   console.log(key, keyPath);
-    // },
+    loginout(){
+      window.sessionStorage.clear()
+      location.reload()
+    },
+
     getPath(){
       if(this.title1.includes(this.$route.meta.title))
         return
@@ -166,22 +182,11 @@ export default {
     '$route':'getPath'
   },
 
-  // metaInfo () {
-  //   return {
-  //     title: this.pageName
-  //   }
-  // },
-  // data () {
-  //   return {
-  //     pageName: 'loading'
-  //   }
-  // },
-  // mounted () {
-  //   setTimeout(() => {
-  //     this.pageName = '222'
-  //   }, 2000)
-  // }
-
+computed:{
+    currusername(){
+      return window.sessionStorage.getItem('username')
+    }
+}
 
 
 }

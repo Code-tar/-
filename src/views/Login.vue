@@ -25,14 +25,24 @@
       }
     },
     methods:{
+      // reuqestLogin(data){
+      //   this.$axios({
+      //     url:'/login/getuser',
+      //
+      //   })
+      // },
+
+
       login(){
         this.$axios({
           url:'/login/getuser',
           params:this.loginDate
         }).then((res)=>{
-          console.log(res);
+          // console.log(res.data.data[0]);
           if(res.data.code===200){
             if(res.data.data.length!==0){
+              this.$message.success('登录成功！')
+              window.sessionStorage.setItem('username',res.data.data[0].name||res.data.data[0].stuName)
               this.$router.push('/home/showNotice')
             }else{
               alert("账号不存在！")

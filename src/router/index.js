@@ -17,13 +17,17 @@ const routes = [
     path: '/home',
     name: "home",
     component: Home,
+    meta:{
+      isLogin: true
+    },
     children: [
       {
         path: "showNotice",
         name: "showNotice",
         component: ShowNotice,
         meta:{
-          title:'公告主页'
+          title:'公告主页',
+          isLogin: true
         }
       },
       {
@@ -31,7 +35,8 @@ const routes = [
         name: "notice",
         component: Notice,
         meta:{
-          title:'公告管理'
+          title:'公告管理',
+          isLogin: true
         }
       },
       {
@@ -39,7 +44,8 @@ const routes = [
         name: "student",
         component: Student,
         meta:{
-          title:'学生管理'
+          title:'学生管理',
+          isLogin: true
         }
       },
       {
@@ -47,7 +53,8 @@ const routes = [
         name: "sushe",
         component: Sushe,
         meta:{
-          title:'宿舍管理'
+          title:'宿舍管理',
+          isLogin: true
         }
       },
       {
@@ -55,7 +62,8 @@ const routes = [
         name: "admin",
         component: Admin,
         meta:{
-          title:'管理员管理'
+          title:'管理员管理',
+          isLogin: true
         }
       },
       {
@@ -89,6 +97,38 @@ router.beforeEach((to,from, next) => {
   }
 
   next();
+
+  const username = window.sessionStorage.getItem('username')
+  if(to.meta.isLogin){
+    if(username){
+      next()
+    }else {
+      next({
+        path:'/login',
+        query:{
+          redirect:to.fullPath
+        }
+      })
+    }
+
+  }
+  else
+    next()
+  // if (to.meta.requireAuth) {
+  //   if ($store.state.state) {
+  //     next()
+  //   } else {
+  //     next({
+  //       path: '/Login',
+  //       query: {
+  //         redirect: to.fullPath
+  //       }
+  //
+  //     })
+  //   }
+  // }
+  //   else
+  //     next();
 
 });
 export default router;

@@ -262,7 +262,7 @@ export default {
     this.$axios({
       url: '/admin/getadmin'
     }).then((res) => {
-      // console.log(res);
+      // console.log(res.token);
       this.data = res.data.data
       this.pageNum = res.data.data.length
 
